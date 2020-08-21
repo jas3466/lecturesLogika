@@ -1,19 +1,19 @@
 ! A x P(x) ⊢ E x !P(x)
 {
-    1. ! A x P(x)               premise
+    1. ! A x P(x)                   premise
     2. {
-        3. ! E x !P(x)          assume
+        3. ! E x !P(x)              assume
         4. {
             5. a
             6. {
-                7. !P(a)        assume
-                8. E x !P(x)    Ei 7 a
-                9. ⊥            !e 8 3
+                7. !P(a)            assume
+                8. E x ! P(x)       Ei 7 a
+                9. _|_              !e 8 3
             }
-            10. P(a)            pbc 6
+            10. P(a)                pbc 6
         }
-        11. A x P(x)            Ai 4
-        12. ⊥                   !e 11 1
+        11. A x P(x)                Ai 4
+        12. _|_                     !e 11 1
     }
-    13. E x !P(x)               pbc 2
+    13. E x !P(x)                   pbc 2
 }

@@ -6,7 +6,7 @@ E x !P(x) ⊢ !A x P(x)
         4. {
             5. A x P(x)     assume
             6. P(a)         Ae 5 a
-            7. ⊥            !e 6 3
+            7. _|_          !e 6 3
         }
         8. ! A x P(x)       !i 4
     }
