@@ -1,0 +1,33 @@
+import org.sireum.logika._
+var x: Z = readInt()
+var z: Z = readInt()
+assume((x + z == 100) & (z > 0))
+l"""{
+     1. (x + z == 100) ^ (z > 0)  premise
+}"""
+z = z + 1
+// put some claim manipulations here
+l"""{
+     1. (x + z_old == 100) ^ (z_old > 0)  premise
+     2. z == z_old + 1                    premise
+     3. z_old == z-1                      algebra 2
+     4. (x + (z-1) == 100) ^ (z-1) > 0    subst1 3 1
+}"""
+
+x = x - 1
+// put some more claim manipulations here, ending with a claim
+// corresponding to the invariant (you need to add in
+// the final claim)
+l"""{
+    1. x == x_old - 1                      premise
+    2. (x_old + (z-1) == 100) ^ (z-1) > 0  premise
+    3. x_old + (z-1) == 100                ^e1 2
+    4. (z-1) > 0                           ^e2 2
+    5. z > 0                               algebra 4
+    6. x_old == x + 1                      algebra 1
+    7. (x+1) + (z-1) == 100                 subst1 6 3
+    8. x + z == 100                         algebra 7
+    9. (x + z == 100) ^ (z > 0)             ^i 8 5
+}"""
+
+assert((x + z == 100) & (z > 0))
