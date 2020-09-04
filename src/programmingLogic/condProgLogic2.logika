@@ -1,0 +1,69 @@
+import org.sireum.logika._
+
+var total: Z = 0
+var pos: Z = 0
+var eqneg: Z = 0
+// prove that desired invariant
+// total == pos + eqneg
+// holds after variable initialization
+assume (total == pos + eqneg)
+l"""{
+    1. total == pos + eqneg premise
+}"""
+
+val x: Z = readInt()
+if (x > 0) {
+    l"""{
+        1. x > 0        premise
+    }"""
+
+    pos = pos + 1
+    l"""{
+        1. pos == pos_old + 1       premise
+        2. x > 0                    premise
+        3. total == pos_old + eqneg premise
+        4. pos_old == pos-1         algebra 1
+        5. total == (pos-1) + eqneg subst1 4 3
+    }"""
+
+    total = total + 1
+    l"""{
+        1. total == total_old + 1   premise
+        2. x > 0                    premise
+        3. total_old == (pos-1) + eqneg premise
+        4. total_old == total-1     algebra 1
+        5. total-1 == (pos-1) + eqneg   subst1 4 3
+        6. total == pos + eqneg         algebra 5
+    }"""
+} else {
+    l"""{
+        1. !(x > 0)        premise
+    }"""
+
+    eqneg = eqneg + 1
+    l"""{
+        1. eqneg == eqneg_old + 1   premise
+        2. !(x > 0)                 premise
+        3. total == pos + eqneg_old premise
+        4. eqneg_old == eqneg-1     algebra 1
+        5. total == pos + (eqneg-1) subst1 4 3
+    }"""
+
+    total = total + 1
+    l"""{
+        1. total == total_old + 1   premise
+        2. !(x > 0)                 premise
+        3. total_old == pos + (eqneg-1) premise
+        4. total_old == total-1     algebra 1
+        5. total-1 == pos + (eqneg-1) subst1 4 3
+        6. total == pos + eqneg     algebra 5
+    }"""
+}
+
+l"""{
+    1. total == pos + eqneg         premise
+}"""
+
+
+// prove invariant property:  total == pos + eqneg
+assert (total == pos + eqneg)

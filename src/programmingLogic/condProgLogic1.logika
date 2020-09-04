@@ -1,0 +1,40 @@
+import org.sireum.logika._
+
+val x: Z = readInt()
+val y: Z = readInt()
+var max: Z = 0
+
+
+if (x > y) {
+    l"""{  1. x > y          	premise    }"""
+
+    max = x
+    l"""{
+        1. max == x   	premise
+        2. x > y        premise
+        3. max ≥ x      algebra 1
+        4. max > y      subst2 1 2
+        5. max ≥ y      algebra 4
+    }"""
+} else {
+    l"""{  1. ¬(x > y)       	premise    }"""
+
+    max = y
+    l"""{
+        1. max == y     premise
+        2. ¬(x > y)     premise
+        3. max ≥ y      algebra 1
+        4. y ≥ x        algebra 2
+        5. max ≥ x      subst2 1 4
+    }"""
+}
+
+l"""{
+	1. max ≥ x          premise
+	2. max ≥ y          premise
+	3. max == x ∨ max == y        	premise
+	4. max ≥ x ∧ max ≥ y          	∧i 1 2
+	5. max ≥ x ∧ max ≥ y ∧ (max == x ∨ max == y)    ∧i 4 3
+}"""
+
+assert(max >= x & max >= y & (max == x | max == y))
