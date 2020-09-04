@@ -2,13 +2,23 @@ import org.sireum.logika._
 
 var total: Z = 0
 var pos: Z = 0
-var eqneg: Z = 0
+var nonPos: Z = 0
 // prove that desired invariant
-// total == pos + eqneg
-// holds after variable initialization
-assume (total == pos + eqneg)
+// total == pos + nonPos
+// holds both after variable initialization
+// and after if/else statement
+
 l"""{
-    1. total == pos + eqneg premise
+    1. total == 0               premise
+    2. pos == 0                 premise
+    3. nonPos == 0              premise
+    4. total == pos + nonPos    algebra 1 2 3
+}"""
+
+assert (total == pos + nonPos)
+
+l"""{
+    1. total == pos + nonPos    premise
 }"""
 
 val x: Z = readInt()
@@ -19,51 +29,50 @@ if (x > 0) {
 
     pos = pos + 1
     l"""{
-        1. pos == pos_old + 1       premise
-        2. x > 0                    premise
-        3. total == pos_old + eqneg premise
-        4. pos_old == pos-1         algebra 1
-        5. total == (pos-1) + eqneg subst1 4 3
+        1. pos == pos_old + 1           premise
+        2. x > 0                        premise
+        3. total == pos_old + nonPos    premise
+        4. pos_old == pos - 1           algebra 1
+        5. total == (pos - 1) + nonPos  subst1 4 3
     }"""
 
     total = total + 1
     l"""{
-        1. total == total_old + 1   premise
-        2. x > 0                    premise
-        3. total_old == (pos-1) + eqneg premise
-        4. total_old == total-1     algebra 1
-        5. total-1 == (pos-1) + eqneg   subst1 4 3
-        6. total == pos + eqneg         algebra 5
+        1. total == total_old + 1           premise
+        2. x > 0                            premise
+        3. total_old == (pos - 1) + nonPos  premise
+        4. total_old == total - 1           algebra 1
+        5. total - 1 == (pos - 1) + nonPos  subst1 4 3
+        6. total == pos + nonPos            algebra 5
     }"""
+
 } else {
     l"""{
-        1. !(x > 0)        premise
+        1. !(x > 0)                         premise
     }"""
 
-    eqneg = eqneg + 1
+    nonPos = nonPos + 1
     l"""{
-        1. eqneg == eqneg_old + 1   premise
-        2. !(x > 0)                 premise
-        3. total == pos + eqneg_old premise
-        4. eqneg_old == eqneg-1     algebra 1
-        5. total == pos + (eqneg-1) subst1 4 3
+        1. nonPos == nonPos_old + 1         premise
+        2. !(x > 0)                         premise
+        3. total == pos + nonPos_old        premise
+        4. nonPos_old == nonPos-1           algebra 1
+        5. total == pos + (nonPos-1)        subst1 4 3
     }"""
 
     total = total + 1
     l"""{
-        1. total == total_old + 1   premise
-        2. !(x > 0)                 premise
-        3. total_old == pos + (eqneg-1) premise
-        4. total_old == total-1     algebra 1
-        5. total-1 == pos + (eqneg-1) subst1 4 3
-        6. total == pos + eqneg     algebra 5
+        1. total == total_old + 1           premise
+        2. !(x > 0)                         premise
+        3. total_old == pos + (nonPos-1)    premise
+        4. total_old == total - 1           algebra 1
+        5. total - 1 == pos + (nonPos-1)    subst1 4 3
+        6. total == pos + nonPos            algebra 5
     }"""
 }
 
 l"""{
-    1. total == pos + eqneg         premise
+    1. total == pos + nonPos                premise
 }"""
-
-
-// prove invariant property:  total == pos + eqneg
-assert (total == pos + eqneg)
+// prove invariant property:  total == pos + nonPos
+assert (total == pos + nonPos)
