@@ -1,0 +1,60 @@
+import org.sireum.logika._
+
+// Given non-negative integer arguments m and n,
+// mult computes multiplication of m and n by using repeated addition.
+
+def mult(m: Z, n: Z): Z = {
+    //define the precondition (requires)
+    //and postcondition (ensures) for the function
+    l"""{
+        requires m >= 0 ^ n >= 0        //precondition
+        ensures result == m*n           //postcondition
+    }"""
+
+    // Goal: return m + m + ... (n times)
+    var r: Z = 0
+    var i: Z = 0
+
+    //show that the loop invariant holds before the loop begins
+    l"""{
+        1. r == 0           premise
+        2. i == 0           premise
+        3. r == m*i         algebra 1 2
+    }"""
+
+    while (i != n) {
+        //the loop invariant and list of variables modified in the loop
+        l"""{
+            invariant r == m*i
+            modifies r, i
+        }"""
+
+        r = r + m
+
+        //process the update of r
+        l"""{
+            1. r_old == m*i         premise
+            2. r == r_old + m       premise
+            3. r == m*i + m         subst1 1 2
+            4. r == m*(i+1)         algebra 3
+        }"""
+
+        i = i + 1
+
+        //process the update of i
+        //show that the invariant still holds
+        l"""{
+            1. r == m*(i_old+1)     premise
+            2. i == i_old + 1       premise
+            3. r == m*i             subst2 2 1
+        }"""
+    }
+
+    //prove the postcondition
+    l"""{
+        1. !(i != n)                premise     //we know the loop condition is false
+        2. r == m*i                 premise     //we know the loop invariant is true
+        3. r == m*n                 algebra 1 2 //proves the postcondition
+    }"""
+    return r
+}
