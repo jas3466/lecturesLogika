@@ -1,0 +1,33 @@
+import org.sireum.logika._
+
+//Given a sequence and two indices,
+//swap the elements at the given indices.
+
+//a = sequence
+//i,j = two indices
+//Unit is like void in Java/C#
+
+def swap(a: ZS, i: Z, j: Z): Unit = {
+    l"""{
+        requires
+            0 <= i ^ i < a.size //precondition: make sure i is a valid position
+            0 <= j ^ j < a.size //precondition: make sure j is a valid position
+        modifies a
+        ensures
+            //these are all the postconditions
+            a.size == a_in.size //the sequence size is the same
+            a(i) == a_in(j) //the new position i element is old position j element
+            a(j) == a_in(i) //the new position j element is old position i element
+            A k: (0 ..<a.size)
+                (k != i ^ k != j) -> a(k) == a_in(k)
+    }"""
+    val temp: Z = a(i)
+    a(i) = a(j)
+    a(j) = temp
+}
+
+//////////Test code/////////////
+val test: ZS = ZS(10,11,12,13)
+swap(test, 1, 3) //test to be (10, 13, 12, 11)
+assert(test(1) == 13)
+assert(test(0) == 10)

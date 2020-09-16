@@ -1,0 +1,4 @@
+import org.sireum.logika._
+
+def square(a: ZS): Unit = {
+}

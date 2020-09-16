@@ -1,0 +1,20 @@
+import org.sireum.logika._
+
+// findMin
+//    given a sequence a, along with upper and lower bounds of the area
+//    of the sequence to search, return the index of a sequence element
+//    that has a minimal value for the elements within the specified area.
+def findMin(a: ZS, lower: Z, upper: Z): Z = {
+    // *** fill in contract here
+    var candidateMinIndex : Z = lower
+    var scannerIndex : Z = lower + 1
+
+    while (scannerIndex <= upper) {
+        // *** fill in loop invariant here
+        if (a(scannerIndex) < a(candidateMinIndex)) {
+            candidateMinIndex = scannerIndex
+        }
+        scannerIndex = scannerIndex + 1
+    }
+    return candidateMinIndex
+}

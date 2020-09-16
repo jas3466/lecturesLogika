@@ -1,0 +1,30 @@
+import org.sireum.logika._
+
+//create a sequence of literals
+var seq: ZS = ZS(5,10,15)
+
+//create an empty sequence
+var empty: ZS = ZS()
+
+//indexing a sequence
+var first: Z = seq(0) //first will be 5
+
+seq(2) = 100    //seq is (5,10,100)
+assert(seq == ZS(5,10,100))
+
+//getting the size of a sequence
+var len: Z = seq.size   //len will be 3
+
+//appending (adding to the end)
+seq = seq:+37   //seq is now (5,10,100,37)
+
+//prepending (adding to the beginning)
+seq = 16+:seq   //seq is now (16,5,10,100,37)
+
+//cloning
+var another: ZS = seq.clone //another is also (16,5,10,100,37)
+
+//allocation with default value
+//symexe mode only
+
+var fours: ZS = ZS.create(10, 4) //fours is now (4,4,4,4,4,4,4,4,4,4)
