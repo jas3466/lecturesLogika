@@ -1,6 +1,9 @@
 import org.sireum.logika._
 
+//SHOULD BE IN SYMEXE MODE
+
 //create a sequence of literals
+
 var seq: ZS = ZS(5,10,15)
 
 //create an empty sequence

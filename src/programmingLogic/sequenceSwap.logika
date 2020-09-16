@@ -7,6 +7,8 @@ import org.sireum.logika._
 //i,j = two indices
 //Unit is like void in Java/C#
 
+//SHOULD BE IN SYMEXE MODE
+
 def swap(a: ZS, i: Z, j: Z): Unit = {
     l"""{
         requires
