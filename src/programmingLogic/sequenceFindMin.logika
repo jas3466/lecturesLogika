@@ -1,20 +1,50 @@
 import org.sireum.logika._
 
+//SHOULD BE IN SYMEXE MODE
+
 // findMin
 //    given a sequence a, along with upper and lower bounds of the area
-//    of the sequence to search, return the index of a sequence element
-//    that has a minimal value for the elements within the specified area.
+//    of the sequence to search, return the minimum element
+//    within the specified area.
+
 def findMin(a: ZS, lower: Z, upper: Z): Z = {
     // *** fill in contract here
-    var candidateMinIndex : Z = lower
-    var scannerIndex : Z = lower + 1
+    l"""{
+        requires
+            0 <= lower ^ lower < a.size
+            0 <= upper ^ upper < a.size
+            lower <= upper
+        ensures
+            A k: (lower..upper) result <= a(k)
+            E k: (lower..upper) result == a(k)
+    }"""
 
-    while (scannerIndex <= upper) {
+    var minIndex : Z = lower
+    var i : Z = lower + 1
+
+    while (i <= upper) {
         // *** fill in loop invariant here
-        if (a(scannerIndex) < a(candidateMinIndex)) {
-            candidateMinIndex = scannerIndex
+        l"""{
+            invariant
+                lower < i ^ i <= upper + 1
+                lower <= minIndex ^ minIndex <= upper
+                A k: (lower..<i) a(minIndex) <= a(k)
+                E k: (lower..<i) a(minIndex) == a(k)
+            modifies i, minIndex
+
+        }"""
+        if (a(i) < a(minIndex)) {
+            minIndex = i
         }
-        scannerIndex = scannerIndex + 1
+        i = i + 1
     }
-    return candidateMinIndex
+
+	//after loop, !cond ^ invariant -> i == upper + 1
+	//our A and E statements hold from lower to upper
+    return a(minIndex)
 }
+
+////////////////////
+val a: ZS = ZS(1,10,-1,5,3,7,11)
+val small: Z = findMin(a, 0, 2)
+assert(small == -1)

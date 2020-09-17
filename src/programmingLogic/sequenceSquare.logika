@@ -1,4 +1,51 @@
 import org.sireum.logika._
 
+//SHOULD BE IN SYMEXE MODE
+
+//should update each element in a to be its square
 def square(a: ZS): Unit = {
+    l"""{
+        modifies a
+        ensures
+            a.size == a_in.size
+            A k: (0..<a.size) a(k) == a_in(k) * a_in(k)
+    }"""
+
+    var i: Z = 0
+    while (i < a.size) {
+        l"""{
+            invariant
+                //have already processed from 0 up to but not including i
+                A k: (0..<i) a(k) == a_in(k) * a_in(k)
+
+                0 <= i ^ i <= a.size
+
+                //everything else has not yet been processed
+                A k: (i..<a.size) a(k) == a_in(k)
+                a.size == a_in.size //size never changes in the loop
+            modifies i, a
+        }"""
+
+        a(i) = a(i) * a(i)
+        i = i + 1
+    }
+
+    //is the postcondition true now?
+
+    //part of the invariant is that the size doesn't change
+    //so we can conclude it's still unchanged here
+
+    //after the loop, we know the invariant is true
+        //and the loop condition is false
+
+    //we know from those that i == a.size
+    //so the invariant tells us that we have processed the entire sequence
 }
+
+////////////// Example test code ///////////////
+
+val list: ZS = ZS(1,2,3,4)
+
+square(list)
+
+assert(list == ZS(1,4,9,16))
