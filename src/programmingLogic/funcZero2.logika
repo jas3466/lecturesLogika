@@ -1,0 +1,45 @@
+import org.sireum.logika._
+
+//zero out the first two elements in a sequence
+def zero2(x: ZS): Unit = {
+    l"""{
+        requires x.size > 1
+        modifies x
+        ensures
+            x(0) == 0
+            x(1) == 0
+            A i: (2..<x.size) x(i) == x_in(i)
+            x.size == x_in.size
+    }"""
+    x(0) = 0
+    x(1) = 0
+}
+
+//////// Client code /////////////
+
+val a: ZS = ZS(1, 2, 3)
+
+//guaranteed the precondition
+l"""{
+    1. a == ZS(1,2,3)           premise
+    2. a.size > 1               auto
+}"""
+
+zero2(a)
+
+//want to be able to conclude that a(0) and a(1) are both 0
+//and that the rest of a is unchanged (including the size)
+//want to conclude that a(2) is still 3, and that
+//a overall is ZS(0,0,3)
+
+l"""{
+    1. a(0) == 0                            premise
+    2. a(1) == 0                            premise
+    3. A i: (2..<a.size) a(i) == a_old(i)   premise
+    4. a.size == a_old.size                 premise
+    5. a_old == ZS(1,2,3)                   premise
+    6. a(2) == 3                            auto
+    7. a == ZS(0,0,3)                       auto
+}"""
+
+assert(a == ZS(0,0,3))
