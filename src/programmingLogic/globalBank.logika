@@ -1,0 +1,69 @@
+import org.sireum.logika._
+
+var balance: Z = 0
+var elite: B = false
+var eliteMin: Z = 1000000 //$1M is the minimum balance for elite status
+
+//global invariants
+
+l"""{
+    invariant
+        balance >= 0
+        elite == (balance >= eliteMin)
+}"""
+
+def deposit(amount: Z): Unit = {
+    l"""{
+        requires amount >= 0        //precondition
+        modifies balance, elite     //global variables modified here
+        ensures balance_in == balance - amount  //postcondition
+    }"""
+
+    balance = balance + amount
+    if (balance >= eliteMin) {
+        elite = true
+    } else {
+        elite = false
+    }
+}
+
+def withdraw(amount: Z): Unit = {
+    l"""{
+        requires amount <= balance      //precondition
+        modifies balance, elite         //global variables modified here
+        ensures balance_in == balance + amount  //postcondition
+    }"""
+
+    balance = balance - amount
+    if (balance >= eliteMin) {
+        elite = true
+    } else {
+        elite = false
+    }
+}
+
+/////// Client code ///////////
+
+//this can be checked automatically in symexe mode, but this is the kind of thing
+//we need to be able to show before each function call:
+//1) global invariants hold
+//2) precondition for function holds
+
+
+
+deposit(500000)
+
+//and this is what we know we will have when the function returns
+//1) global invariant still holds
+//2) the postcondition from the function holds
+
+assert(balance == 500000 & !elite)
+
+
+
+deposit(600000)
+assert(balance == 1100000 & elite)
+withdraw(150000)
+assert(balance == 950000 & !elite)
+deposit(200000)
+assert(balance == 1150000 & elite)
