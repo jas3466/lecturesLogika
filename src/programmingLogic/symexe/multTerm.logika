@@ -1,0 +1,44 @@
+import org.sireum.logika._
+
+// Given non-negative integer arguments m and n,
+// mult computes multiplication of m and n by using repeated addition.
+
+def mult(m: Z, n: Z): Z = {
+    //define the precondition (requires)
+    //and postcondition (ensures) for the function
+    l"""{
+        requires n >= 0                 //precondition
+        ensures result == m*n           //postcondition
+    }"""
+
+    // Goal: return m + m + ... (n times)
+    var r: Z = 0
+    var i: Z = 0
+
+    while (i != n) {
+        //the loop invariant and list of variables modified in the loop
+        l"""{
+            invariant r == m*i
+                0 <= i ^ i <= n
+            modifies r, i
+        }"""
+
+        //what should we measure? (what decreases?) Measure: (n-i)
+
+        //get measure value at beginning of iteration
+        val measureBegin: Z = n - i
+
+        r = r + m
+        i = i + 1
+
+        //get measure value at end of iteration
+        val measureEnd: Z = n - i
+
+        //It should be true that the measure at end < measure at begin
+        assert(measureEnd < measureBegin)
+        //when measure is <= 0, the loop should end
+        assert(measureEnd > 0 | !(i != n)) //I have more work to do, or the loop ends
+    }
+
+    return r
+}
