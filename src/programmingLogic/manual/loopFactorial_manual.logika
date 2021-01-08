@@ -86,7 +86,7 @@ def factorial(n: Z): Z = {
         4. !(i < n)         premise //loop condition is now false
         5. i == n           algebra 3 4
         6. r == f(n)        subst1 5 1
-        //FINISH
+        //FINISH    
     }"""
     return r
 }

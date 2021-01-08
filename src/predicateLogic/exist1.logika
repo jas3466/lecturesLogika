@@ -1,3 +1,5 @@
+//commit test
+
 ∀x human(x) → mortal(x),  ∃y human(y)  ⊢ ∃z mortal(z)
 {
     1. ∀x human(x) → mortal(x)          premise
